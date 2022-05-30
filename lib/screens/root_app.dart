@@ -1,3 +1,4 @@
+import 'package:firstrip/screens/uploadNewEat.dart';
 import 'package:flutter/material.dart';
 import 'package:firstrip/screens/explore.dart';
 import 'package:firstrip/utils/constant.dart';
@@ -27,6 +28,9 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     {
       "icon": "assets/icons/profile_page.svg",
       "page": Container(),
+    },{
+      "icon": "assets/icons/profile_page.svg",
+      "page": AddNewEat(),
     },
   ];
 

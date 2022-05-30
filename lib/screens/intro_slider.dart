@@ -1,8 +1,6 @@
 import 'package:firstrip/screens/auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intro_slider/intro_slider.dart';
-
 
 class IntroSliderPage extends StatefulWidget {
   const IntroSliderPage({Key? key}) : super(key: key);
@@ -108,7 +106,6 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
 
   @override
   Widget build(BuildContext context) {
-    var dotSliderAnimation;
     return IntroSlider(
       backgroundColorAllSlides: const Color.fromRGBO(250, 249, 249, 1),
       renderSkipBtn: const Text(
@@ -130,7 +127,6 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       colorDot: const Color.fromRGBO(50, 183, 104, 1),
       colorActiveDot: const Color.fromRGBO(230, 230, 230, 1),
       sizeDot: 8.0,
-      typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
       listCustomTabs: renderListCustomTabs(),
       scrollPhysics: const BouncingScrollPhysics(),
       onDonePress: () => Navigator.pushReplacement(
