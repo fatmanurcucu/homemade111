@@ -1,7 +1,8 @@
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,6 +16,10 @@ class AddNewEat extends StatefulWidget {
 class _AddNewEatState extends State<AddNewEat> {
   final _picker = ImagePicker();
   File? image;
+  var latitud;
+  var longitud;
+  var altitud;
+  var adrees;
   var location ="";
   void grtCurrentLocation()async{
     var position = await Geolocator
@@ -24,6 +29,34 @@ class _AddNewEatState extends State<AddNewEat> {
     setState((){
       location="${position.latitude} ,${position.longitude}";
     });
+  }
+  Future<void>updatePosition()async{
+    Position pos = await detrminePosition();
+    List pm = await placemarkFromCoordinates(pos.latitude, pos.longitude);
+    setState((){
+      latitud = pos.latitude.toString();
+      longitud = pos.longitude.toString();
+      altitud = pos.altitude.toString();
+      adrees = pm[0].toString();
+      location="${latitud} ,${longitud}";
+    });
+
+    print(adrees);
+  }
+
+  Future<Position>detrminePosition()async{
+    bool ServerEnebaled;
+    LocationPermission permission;
+    ServerEnebaled = await Geolocator.isLocationServiceEnabled();
+    if(!ServerEnebaled) return Future.error("error");
+    permission= await Geolocator.checkPermission();
+    if(permission==LocationPermission.denied){
+      permission = await Geolocator.requestPermission();
+      if(permission==LocationPermission.denied)return Future.error("error");
+    }
+    if(permission==LocationPermission.deniedForever)return Future.error("error");
+
+    return await Geolocator.getCurrentPosition();
   }
   String dropdownvalue = 'Item 1';
   var items = [
@@ -170,7 +203,9 @@ class _AddNewEatState extends State<AddNewEat> {
                 child: Text(location),
               ),
 
-              MaterialButton(onPressed: grtCurrentLocation,child: Text("press"),)
+              MaterialButton(onPressed: ()async{
+               await updatePosition();
+              },child: Text("press"),)
 
             ],
           ),
